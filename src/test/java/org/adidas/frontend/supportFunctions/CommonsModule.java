@@ -1,6 +1,7 @@
 package org.adidas.frontend.supportFunctions;
 
 import net.serenitybdd.core.Serenity;
+import org.adidas.frontend.config.LocatorTypes;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -82,7 +83,7 @@ public class CommonsModule {
                 return index;
             }
         }
-        Assert.fail(key + "has not been found in the element list");
+        Assert.fail(key + " has not been found in the element list");
         return -1;
     }
 

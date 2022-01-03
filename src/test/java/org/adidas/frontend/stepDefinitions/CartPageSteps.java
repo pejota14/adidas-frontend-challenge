@@ -3,14 +3,14 @@ package org.adidas.frontend.stepDefinitions;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.adidas.frontend.hooks.Hooks;
+import org.adidas.frontend.config.DriverManager;
 import org.adidas.frontend.pages.CartPage;
 import org.adidas.frontend.supportFunctions.CommonsModule;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
 public class CartPageSteps {
-    WebDriver driver = Hooks.getDriver();
+    WebDriver driver = DriverManager.getDriver();
     CartPage cartPage = new CartPage(driver);
 
     @When("^the user removes (.*) from cart$")
@@ -33,6 +33,7 @@ public class CartPageSteps {
 
     @Then("^the purchase amount equals cart amount$")
     public void verifyPurchaseAmount() {
+        cartPage.logPurchase();
         Assert.assertEquals("Purchase amount is not equal to cart amount", CommonsModule.getSessionVariable("totalAmount"), cartPage.getPurchaseAmount());
     }
     @When("^the user accepts$")

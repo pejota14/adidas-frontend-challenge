@@ -2,11 +2,13 @@ package org.adidas.frontend.pages;
 
 import io.cucumber.datatable.DataTable;
 import org.adidas.frontend.config.Configuration;
+import org.adidas.frontend.config.LocatorTypes;
 import org.adidas.frontend.supportFunctions.CommonsModule;
-import org.adidas.frontend.supportFunctions.LocatorTypes;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.io.*;
+import java.util.Date;
 import java.util.List;
 
 public class CartPage {
@@ -21,7 +23,7 @@ public class CartPage {
     private static final String countryInputLocator = Configuration.COUNTRY_INPUT_LOCATOR;
     private static final String cityInputLocator = Configuration.CITY_INPUT_LOCATOR;
     private static final String purchaseOrderLocator = Configuration.PURCHASE_ORDER_LOCATOR;
-    private static final String purchaseAmountLocator = Configuration.PURCHASE_AMOUNT_LOCATOR;
+    private static final String purchaseLocator = Configuration.PURCHASE_LOCATOR;
     private static final String totalAmountLocator = Configuration.TOTAL_AMOUNT_LOCATOR;
     private static final String okButtonLocator = Configuration.OK_BUTTON_LOCATOR;
     CommonsModule commonsModule = new CommonsModule();
