@@ -10,10 +10,16 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation "org.seleniumhq.selenium:selenium-java:${property('selenium.version')}"
+    implementation "io.github.bonigarcia:webdrivermanager:${property('bonigarcia.version')}"
+    testImplementation "junit:junit:${property('junit.version')}"
+    testImplementation "io.cucumber:cucumber-junit:${property('cucumber.version')}"
+    implementation "io.cucumber:cucumber-java:${property('cucumber.version')}"
+    implementation "net.serenity-bdd:serenity-core:${property('serenity.version')}"
+    testImplementation "net.serenity-bdd:serenity-junit:${property('serenity.version')}"
+    testImplementation "net.serenity-bdd:serenity-cucumber:${property('serenity.version')}"
 }
 
 test {
-    useJUnitPlatform()
+
 }
