@@ -7,10 +7,19 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.*;
 import java.time.Duration;
 import java.util.List;
 
 public class CommonsModule {
+    public static <T> T getSessionVariable(String key) {
+        return Serenity.sessionVariableCalled(key);
+    }
+
+    public static <T> void setSessionVariable(String key, T value) {
+        Serenity.setSessionVariable(key).to(value);
+    }
+
     public WebElement findWebElement(WebDriver driver, String locator, LocatorTypes locatorType) {
         By byLocator = null;
         switch (locatorType) {
@@ -53,7 +62,7 @@ public class CommonsModule {
         try {
             element.click();
         } catch (Exception exception) {
-            Assert.fail("Fail to click element: " + exception.getMessage());
+            Assert.fail("Fail to click element");
         }
     }
 
@@ -64,7 +73,7 @@ public class CommonsModule {
         } catch (IllegalArgumentException ignored) {
             Assert.fail("Input text is not defined");
         } catch (Exception exception) {
-            Assert.fail("Fail to input text: " + exception.getMessage());
+            Assert.fail("Fail to input text");
         }
     }
 
@@ -105,11 +114,21 @@ public class CommonsModule {
         }
     }
 
-    public static String getSessionVariable(String key) {
-        return Serenity.sessionVariableCalled(key);
-    }
-
-    public static void setSessionVariable(String key, String value) {
-        Serenity.setSessionVariable(key).to(value);
+    public void appendLineToFile(String filePath, String text) {
+        try {
+            File logFile = new File(filePath);
+            logFile.getParentFile().mkdirs();
+            FileWriter fileWriter = new FileWriter(logFile, true);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.println(text);
+            fileWriter.close();
+            printWriter.close();
+        } catch (FileNotFoundException e) {
+            Assert.fail("File not found: " + filePath);
+        } catch (UnsupportedEncodingException e) {
+            Assert.fail("Unsupported Encoding Exception: " + filePath);
+        } catch (IOException e) {
+            Assert.fail("Error writing in file: " + filePath);
+        }
     }
 }

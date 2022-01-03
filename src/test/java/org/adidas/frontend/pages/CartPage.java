@@ -7,11 +7,11 @@ import org.adidas.frontend.supportFunctions.CommonsModule;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.io.*;
 import java.util.Date;
 import java.util.List;
 
 public class CartPage {
+    // XPATHs
     private static final String productListLocator = Configuration.PRODUCT_LIST_LOCATOR;
     private static final String deleteListLocator = Configuration.DELETE_LIST_LOCATOR;
     private static final String placeOrderLocator = Configuration.PLACE_ORDER_LOCATOR;
@@ -26,6 +26,10 @@ public class CartPage {
     private static final String purchaseLocator = Configuration.PURCHASE_LOCATOR;
     private static final String totalAmountLocator = Configuration.TOTAL_AMOUNT_LOCATOR;
     private static final String okButtonLocator = Configuration.OK_BUTTON_LOCATOR;
+
+    // FILES
+    private static final String purchaseLogFilePath = Configuration.PURCHASE_LOG_FILE_PATH;
+
     CommonsModule commonsModule = new CommonsModule();
     WebDriver driver;
 
@@ -38,11 +42,13 @@ public class CartPage {
         List<WebElement> deleteFromBasketList = commonsModule.findWebElements(driver, deleteListLocator, LocatorTypes.XPATH);
         int searchedProductIndex = commonsModule.searchElementIndex(productList, product);
         commonsModule.clickElement(deleteFromBasketList.get(searchedProductIndex));
-        while (true) {
+        int counter = 0;
+        while (counter < 100) {
             List<WebElement> currentProductList = commonsModule.findWebElements(driver, deleteListLocator, LocatorTypes.XPATH);
             if (currentProductList.size() != productList.size() && !(currentProductList.size() == 0 && productList.size() != 1)) {
                 break;
             }
+            counter++;
         }
     }
 
@@ -54,18 +60,22 @@ public class CartPage {
     public void placeOrder() {
         WebElement placeOrderButton = commonsModule.findWebElement(driver, placeOrderLocator, LocatorTypes.XPATH);
         commonsModule.clickElement(placeOrderButton);
-        while (true) {
+        int counter = 0;
+        while (counter < 100) {
             if (commonsModule.verifyElementExist(driver, placeOrderTextLocator, LocatorTypes.XPATH)) {
                 break;
             }
+            counter++;
         }
     }
 
     public void setPersonalData(DataTable personalData) {
-        while (true) {
+        int counter = 0;
+        while (counter < 100) {
             if (commonsModule.verifyElementExist(driver, nameInputLocator, LocatorTypes.XPATH)) {
                 break;
             }
+            counter++;
         }
         WebElement nameInput = commonsModule.findWebElement(driver, nameInputLocator, LocatorTypes.XPATH);
         WebElement countryInput = commonsModule.findWebElement(driver, countryInputLocator, LocatorTypes.XPATH);
@@ -89,8 +99,16 @@ public class CartPage {
     }
 
     public String getPurchaseAmount() {
-        WebElement purchaseAmountButton = commonsModule.findWebElement(driver, purchaseAmountLocator, LocatorTypes.XPATH);
-        return purchaseAmountButton.getText().split("\n")[1].split(" ")[1];
+        WebElement purchaseText = commonsModule.findWebElement(driver, purchaseLocator, LocatorTypes.XPATH);
+        return purchaseText.getText().split("\n")[1].split(" ")[1];
+    }
+
+    public void logPurchase() {
+        WebElement purchaseText = commonsModule.findWebElement(driver, purchaseLocator, LocatorTypes.XPATH);
+        String purchaseAmount = purchaseText.getText().split("\n")[1].split(" ")[1];
+        String purchaseId = purchaseText.getText().split("\n")[0].split(" ")[1];
+        String logLine = new Date() + " ID: " + purchaseId + ". Amount: " + purchaseAmount;
+        commonsModule.appendLineToFile(purchaseLogFilePath, logLine);
     }
 
     public void userAccepts() {
