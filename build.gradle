@@ -10,12 +10,16 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'io.cucumber:cucumber-junit:7.0.0'
-    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
-    implementation 'io.cucumber:cucumber-java:7.0.0'
-    implementation 'io.github.bonigarcia:webdrivermanager:5.0.3'
-    implementation 'net.serenity-bdd:serenity-core:3.1.15'
-    testImplementation 'net.serenity-bdd:serenity-junit:3.1.15'
-    testImplementation 'net.serenity-bdd:serenity-cucumber:3.1.15'
+    implementation "org.seleniumhq.selenium:selenium-java:${property('selenium.version')}"
+    implementation "io.github.bonigarcia:webdrivermanager:${property('bonigarcia.version')}"
+    testImplementation "junit:junit:${property('junit.version')}"
+    testImplementation "io.cucumber:cucumber-junit:${property('cucumber.version')}"
+    implementation "io.cucumber:cucumber-java:${property('cucumber.version')}"
+    implementation "net.serenity-bdd:serenity-core:${property('serenity.version')}"
+    testImplementation "net.serenity-bdd:serenity-junit:${property('serenity.version')}"
+    testImplementation "net.serenity-bdd:serenity-cucumber:${property('serenity.version')}"
+}
+
+test {
+
 }
