@@ -1,8 +1,8 @@
 package org.adidas.frontend.pages;
 
 import org.adidas.frontend.config.Configuration;
-import org.adidas.frontend.supportFunctions.CommonsModule;
 import org.adidas.frontend.config.LocatorTypes;
+import org.adidas.frontend.supportFunctions.CommonsModule;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 

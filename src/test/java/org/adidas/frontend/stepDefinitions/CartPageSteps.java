@@ -36,6 +36,7 @@ public class CartPageSteps {
         cartPage.logPurchase();
         Assert.assertEquals("Purchase amount is not equal to cart amount", CommonsModule.getSessionVariable("totalAmount"), cartPage.getPurchaseAmount());
     }
+
     @When("^the user accepts$")
     public void userAccepts() {
         cartPage.userAccepts();
