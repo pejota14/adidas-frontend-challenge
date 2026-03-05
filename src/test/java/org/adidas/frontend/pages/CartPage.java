@@ -33,6 +33,8 @@ public class CartPage {
     CommonsModule commonsModule = new CommonsModule();
     WebDriver driver;
 
+    int maxAttempts = 1000000000;
+
     public CartPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -43,9 +45,9 @@ public class CartPage {
         int searchedProductIndex = commonsModule.searchElementIndex(productList, product);
         commonsModule.clickElement(deleteFromBasketList.get(searchedProductIndex));
         int counter = 0;
-        while (counter < 100) {
+        while (counter < maxAttempts) {
             List<WebElement> currentProductList = commonsModule.findWebElements(driver, deleteListLocator, LocatorTypes.XPATH);
-            if (currentProductList.size() != productList.size() && !(currentProductList.size() == 0 && productList.size() != 1)) {
+            if (currentProductList.size() != productList.size() && !(currentProductList.isEmpty() && productList.size() != 1)) {
                 break;
             }
             counter++;
@@ -61,7 +63,7 @@ public class CartPage {
         WebElement placeOrderButton = commonsModule.findWebElement(driver, placeOrderLocator, LocatorTypes.XPATH);
         commonsModule.clickElement(placeOrderButton);
         int counter = 0;
-        while (counter < 100) {
+        while (counter < maxAttempts) {
             if (commonsModule.verifyElementExist(driver, placeOrderTextLocator, LocatorTypes.XPATH)) {
                 break;
             }
@@ -71,12 +73,6 @@ public class CartPage {
 
     public void setPersonalData(DataTable personalData) {
         int counter = 0;
-        while (counter < 100) {
-            if (commonsModule.verifyElementExist(driver, nameInputLocator, LocatorTypes.XPATH)) {
-                break;
-            }
-            counter++;
-        }
         WebElement nameInput = commonsModule.findWebElement(driver, nameInputLocator, LocatorTypes.XPATH);
         WebElement countryInput = commonsModule.findWebElement(driver, countryInputLocator, LocatorTypes.XPATH);
         WebElement cityInput = commonsModule.findWebElement(driver, cityInputLocator, LocatorTypes.XPATH);
@@ -84,6 +80,12 @@ public class CartPage {
         WebElement monthInput = commonsModule.findWebElement(driver, monthInputLocator, LocatorTypes.XPATH);
         WebElement yearInput = commonsModule.findWebElement(driver, yearInputLocator, LocatorTypes.XPATH);
         WebElement totalAmount = commonsModule.findWebElement(driver, totalAmountLocator, LocatorTypes.XPATH);
+        while (counter < maxAttempts) {
+            if (nameInput.isDisplayed() && nameInput.isEnabled()) {
+                break;
+            }
+            counter++;
+        }
         commonsModule.inputText(nameInput, personalData.cell(1, 0));
         commonsModule.inputText(countryInput, personalData.cell(1, 1));
         commonsModule.inputText(cityInput, personalData.cell(1, 2));

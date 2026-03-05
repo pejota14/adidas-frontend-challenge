@@ -21,15 +21,10 @@ public class CommonsModule {
     }
 
     public WebElement findWebElement(WebDriver driver, String locator, LocatorTypes locatorType) {
-        By byLocator = null;
-        switch (locatorType) {
-            case CSS:
-                byLocator = new By.ByCssSelector(locator);
-                break;
-            case XPATH:
-                byLocator = new By.ByXPath(locator);
-                break;
-        }
+        By byLocator = switch (locatorType) {
+            case CSS -> new By.ByCssSelector(locator);
+            case XPATH -> new By.ByXPath(locator);
+        };
         try {
             WebDriverWait waiter = new WebDriverWait(driver, Duration.ofSeconds(5));
             return waiter.until(ExpectedConditions.presenceOfElementLocated(byLocator));
@@ -40,15 +35,10 @@ public class CommonsModule {
     }
 
     public List<WebElement> findWebElements(WebDriver driver, String locator, LocatorTypes locatorType) {
-        By byLocator = null;
-        switch (locatorType) {
-            case CSS:
-                byLocator = new By.ByCssSelector(locator);
-                break;
-            case XPATH:
-                byLocator = new By.ByXPath(locator);
-                break;
-        }
+        By byLocator = switch (locatorType) {
+            case CSS -> new By.ByCssSelector(locator);
+            case XPATH -> new By.ByXPath(locator);
+        };
         try {
             WebDriverWait waiter = new WebDriverWait(driver, Duration.ofSeconds(5));
             return waiter.until(ExpectedConditions.presenceOfAllElementsLocatedBy(byLocator));
@@ -97,17 +87,13 @@ public class CommonsModule {
     }
 
     public boolean verifyElementExist(WebDriver driver, String locator, LocatorTypes locatorType) {
-        By byLocator = null;
-        switch (locatorType) {
-            case CSS:
-                byLocator = new By.ByCssSelector(locator);
-                break;
-            case XPATH:
-                byLocator = new By.ByXPath(locator);
-                break;
-        }
+        By byLocator = switch (locatorType) {
+            case CSS -> new By.ByCssSelector(locator);
+            case XPATH -> new By.ByXPath(locator);
+        };
         try {
-            driver.findElement(byLocator);
+            WebDriverWait waiter = new WebDriverWait(driver, Duration.ofSeconds(5));
+            waiter.until(ExpectedConditions.presenceOfElementLocated(byLocator));
             return true;
         } catch (NoSuchElementException exception) {
             return false;
